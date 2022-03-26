@@ -32,6 +32,7 @@ sourceSets {
 }
 
 publishing {
+
     repositories {
         maven {
             name = "GitHubPackages"
@@ -40,6 +41,16 @@ publishing {
                 username = System.getenv("USER")
                 password = System.getenv("GITHUB_TOKEN")
             }
+        }
+    }
+
+    repositories {
+        mavenLocal()
+    }
+
+    publications {
+        mavenJava(MavenPublication) {
+            from components.java
         }
     }
 }
