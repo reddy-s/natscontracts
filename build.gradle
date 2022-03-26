@@ -1,0 +1,61 @@
+plugins {
+    id 'com.google.protobuf' version '0.8.17'
+    id 'com.github.johnrengelman.shadow' version '7.1.2'
+    id 'java'
+    id 'idea'
+    id 'maven-publish'
+    id 'com.palantir.docker' version "0.32.0"
+}
+
+group 'io.virtuelabs.poc'
+version '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+    mavenLocal()
+}
+
+dependencies {
+    implementation('io.grpc:grpc-netty:1.45.0')
+    implementation('io.grpc:grpc-protobuf:1.45.0')
+    implementation('io.grpc:grpc-stub:1.45.0')
+    implementation('com.google.protobuf:protobuf-java:3.19.4')
+}
+
+sourceSets {
+    main {
+        java {
+            srcDirs './build/generated/source/proto/main/grpc'
+            srcDirs './build/generated/source/proto/main/java'
+        }
+    }
+}
+
+publishing {
+    repositories {
+        maven {
+            name = "GitHubPackages"
+            url = "https://maven.pkg.github.com/reddy-s/natscontracts"
+            credentials {
+                username = System.getenv("USER")
+                password = System.getenv("GITHUB_TOKEN")
+            }
+        }
+    }
+}
+
+protobuf {
+    protoc {
+        artifact = "com.google.protobuf:protoc:3.19.2"
+    }
+    plugins {
+        grpc {
+            artifact = 'io.grpc:protoc-gen-grpc-java:1.45.0'
+        }
+    }
+    generateProtoTasks {
+        all()*.plugins {
+            grpc {}
+        }
+    }
+}
