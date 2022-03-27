@@ -1,0 +1,24 @@
+syntax = "proto3";
+
+package natscontracts;
+
+option java_package = "io.virtuelabs.poc.natscontracts";
+option java_multiple_files = true;
+
+import "google/protobuf/timestamp.proto";
+import "Common.proto";
+
+message ConsignmentUpdate {
+    string correlationId = 1;
+    int32 consignmentId = 2;
+    TransportationType transportationType = 3;
+    GPSCoordinates source = 4;
+    GPSCoordinates destination = 5;
+    GPSCoordinates currentLocation = 6;
+    ConsignmentStatus status = 7;
+    google.protobuf.Timestamp eventTime = 8;
+}
+
+service ConsignmentService {
+    rpc SendConsignmentUpdate(ConsignmentUpdate) returns (Acknowledgement);
+}

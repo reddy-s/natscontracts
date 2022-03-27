@@ -1,0 +1,32 @@
+syntax = "proto3";
+
+package natscontracts;
+
+option java_package = "io.virtuelabs.poc.natscontracts";
+option java_multiple_files = true;
+
+message GPSCoordinates {
+  double latitude = 1;
+  double longitude = 2;
+}
+
+message Acknowledgement {
+  bool isAcknowledged = 1;
+  string correlationId = 2;
+}
+
+enum TransportationType {
+  TRUCK = 0;
+  VAN = 1;
+  TRAIN = 2;
+  SHIP = 3;
+  PLANE = 4;
+}
+
+enum ConsignmentStatus {
+  SCHEDULED = 0;
+  AT_SOURCE_DEPO = 1;
+  IN_TRANSIT = 2;
+  AT_DESTINATION_DEPO = 3;
+  DELIVERED = 4;
+}
